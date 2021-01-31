@@ -164,6 +164,9 @@ React의 Custom Hooks와 같은 느낌이다.<br/>
 써봐야 알테지만, hooks처럼 별도로 분리하여 운영한다면,<br/>
 생각보다 많은 컴포넌트의 의존성 문제를 해결할 수 있을 것 같다.<br/>
 
+써본 결과 React Custom Hooks와 동일하게
+Composition API로 만들어서 hooks를 만든 부분도 별도의 상태를 유지한다.<br/>
+
 <br/>
 <br/>
 
@@ -222,4 +225,6 @@ export default {
     something3();
   },
 };
+
+// https://geundung.dev/102 참고
 ```

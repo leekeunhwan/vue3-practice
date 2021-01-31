@@ -1,17 +1,16 @@
 <template>
-  <layout>
-    <router-view />
-  </layout>
+  <todo-input />
 </template>
 
-<script lang="ts">
+<script>
 import { defineComponent } from "vue";
-import Layout from "./styles/Layout.vue";
+import TodoInput from "../components/TodoInput.vue";
 
 export default defineComponent({
-  name: "App",
+  name: "TodoList",
   components: {
-    Layout
+    TodoInput,
+    TodoInput2
   }
 });
 </script>
