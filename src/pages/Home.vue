@@ -1,11 +1,11 @@
 <template>
   <div>
     <todo-form
-      :inputTodoText="inputTodoText"
+      :todoText="todoText"
       :hanldeTextInput="hanldeTextInput"
       :handleTodoAdd="handleTodoAdd"
     />
-    <spacing :height="80" />
+    <spacing :height="20" />
     <todo-list
       :todoList="todoList"
       :hanldeTodoUpdate="hanldeTodoUpdate"
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import TodoForm from "../components/TodoForm.vue";
 import Spacing from "../components/common/Spacing.vue";
 import TodoList from "../components/TodoList.vue";
@@ -31,7 +31,7 @@ export default defineComponent({
   setup() {
     const {
       todoList,
-      inputTodoText,
+      todoText,
       hanldeTextInput,
       handleTodoAdd,
       hanldeTodoUpdate,
@@ -40,7 +40,7 @@ export default defineComponent({
 
     return {
       todoList,
-      inputTodoText,
+      todoText,
       hanldeTextInput,
       handleTodoAdd,
       hanldeTodoUpdate,

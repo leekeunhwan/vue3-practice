@@ -1,18 +1,25 @@
 <template>
-  <input class="TodoInput__Input" type="text" :value="inputTodoText" @input="hanldeTextInput" />
+  <input class="TodoInput__Input" type="text" :value="todoText" @input="hanldeTextInput" />
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, watch } from "vue";
 
 export default defineComponent({
   name: "TodoInput",
   props: {
-    inputTodoText: String,
+    todoText: String,
     hanldeTextInput: Function
   },
   setup(props) {
-    const { inputTodoText, hanldeTextInput } = props;
-    return { inputTodoText, hanldeTextInput };
+    const { todoText, hanldeTextInput } = props;
+
+    watch(
+      () => props,
+      (first, second) => {
+        console.log("todoText>>>", first, second);
+      }
+    );
+    return { todoText, hanldeTextInput };
   }
 });
 </script>

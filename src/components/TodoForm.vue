@@ -1,9 +1,9 @@
 <template>
-  <div class="TodoForm__Container">
-    <todo-input :hanldeTextInput="hanldeTextInput" />
+  <form class="TodoForm__Container" @submit.prevent="handleTodoAdd">
+    <todo-input :todoText="todoText" :hanldeTextInput="hanldeTextInput" />
     <spacing :right="8" />
     <button class="TodoForm__Button" @click.prevent="handleTodoAdd">작성</button>
-  </div>
+  </form>
 </template>
 
 <script lang="ts">
@@ -18,13 +18,14 @@ export default defineComponent({
     Spacing
   },
   props: {
-    inputTodoText: String,
+    todoText: String,
     hanldeTextInput: Function,
     handleTodoAdd: Function
   },
+
   setup(props) {
-    const { inputTodoText, hanldeTextInput, handleTodoAdd } = props;
-    return { inputTodoText, hanldeTextInput, handleTodoAdd };
+    const { todoText, hanldeTextInput, handleTodoAdd } = props;
+    return { todoText, hanldeTextInput, handleTodoAdd };
   }
 });
 </script>
