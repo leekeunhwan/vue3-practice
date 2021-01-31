@@ -1,4 +1,4 @@
-import { reactive, toRefs, watchEffect } from "vue";
+import { reactive, toRefs } from "vue";
 
 export interface TodoList {
   id: string;
@@ -8,47 +8,47 @@ export interface TodoList {
 interface NewTodoList extends TodoList {}
 interface NextTodoList extends TodoList {}
 
+interface State {
+  todoList: TodoList[];
+  todoText: string;
+}
+
 export function useTodo() {
-  const stateAsRefs = reactive({
+  const state = reactive<State>({
     todoList: [],
     todoText: "",
   });
 
   const hanldeTextInput = (event: InputEvent): void => {
-    stateAsRefs.todoText = (event.target as HTMLInputElement).value;
+    state.todoText = (event.target as HTMLInputElement).value;
   };
 
   const handleTodoAdd = (): void => {
     const newTodoList: NewTodoList = {
       id: `id-${new Date().getTime()}-${(Math.random() * 10000).toFixed(0)}`,
-      text: stateAsRefs.todoText,
+      text: state.todoText,
       done: false,
     };
-
-    stateAsRefs.todoText = "";
-    stateAsRefs.todoList.push(newTodoList);
+    state.todoText = "";
+    state.todoList.push(newTodoList);
   };
 
   const hanldeTodoUpdate = (updateTodoList: NextTodoList) => {
-    const updateTargetIndex = TodoList.findIndex(
+    const updateTargetIndex = state.todoList.findIndex(
       (todo: TodoList) => todo.id === updateTodoList.id
     );
 
-    stateAsRefs.todoList[updateTargetIndex] = updateTodoList;
+    state.todoList[updateTargetIndex] = updateTodoList;
   };
 
   const handleTodoDelete = (deleteTodo: TodoList) => {
-    const deleteTargetIndex = TodoList.findIndex(
-      (todo: TodoList) => todo.id === deleteTodo.id
-    );
-
-    stateAsRefs.todoList = stateAsRefs.todoList.filter(
+    state.todoList = state.todoList.filter(
       (todo: TodoList) => todo.id !== deleteTodo.id
     );
   };
 
   return {
-    ...toRefs(stateAsRefs),
+    ...toRefs(state),
     hanldeTextInput,
     handleTodoAdd,
     hanldeTodoUpdate,

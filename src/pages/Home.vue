@@ -1,22 +1,21 @@
 <template>
   <div>
-    <todo-form
-      :todoText="todoText"
-      :hanldeTextInput="hanldeTextInput"
-      :handleTodoAdd="handleTodoAdd"
-    />
+    <form class="TodoForm__Container" @submit.prevent="action.handleTodoAdd">
+      <input class="TodoInput__Input" type="text" :value="todoText" @input="action.hanldeTextInput" />
+      <spacing :right="8" />
+      <button class="TodoForm__Button" @click.prevent="action.handleTodoAdd">작성</button>
+    </form>
     <spacing :height="20" />
     <todo-list
       :todoList="todoList"
-      :hanldeTodoUpdate="hanldeTodoUpdate"
-      :handleTodoDelete="handleTodoDelete"
+      :hanldeTodoUpdate="action.hanldeTodoUpdate"
+      :handleTodoDelete="action.handleTodoDelete"
     />
   </div>
 </template>
 
-<script>
-import { defineComponent, ref } from "vue";
-import TodoForm from "../components/TodoForm.vue";
+<script lang="ts">
+import { defineComponent } from "vue";
 import Spacing from "../components/common/Spacing.vue";
 import TodoList from "../components/TodoList.vue";
 import { useTodo } from "../hooks/TodoHooks";
@@ -24,7 +23,6 @@ import { useTodo } from "../hooks/TodoHooks";
 export default defineComponent({
   name: "Home",
   components: {
-    TodoForm,
     Spacing,
     TodoList
   },
@@ -38,17 +36,39 @@ export default defineComponent({
       handleTodoDelete
     } = useTodo();
 
-    return {
-      todoList,
-      todoText,
+    const action = {
       hanldeTextInput,
       handleTodoAdd,
       hanldeTodoUpdate,
       handleTodoDelete
+    };
+
+    return {
+      todoList,
+      todoText,
+      action
     };
   }
 });
 </script>
 
 <style scoped>
+.TodoForm__Container {
+  display: flex;
+  align-items: center;
+  height: 28px;
+}
+
+.TodoForm__Button {
+  height: 100%;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 3px;
+}
+
+.TodoInput__Input {
+  height: 100%;
+  box-sizing: border-box;
+  padding-left: 5px;
+}
 </style>
