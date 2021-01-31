@@ -1,24 +1,25 @@
 <template>
-  <div>
-    <input type="text" :value="inputTodoText" @input="inputText" />
-    <div>{{inputTodoText}}</div>
-  </div>
+  <input class="TodoInput__Input" type="text" :value="inputTodoText" @input="hanldeTextInput" />
 </template>
-<script>
+<script lang="ts">
 import { defineComponent } from "vue";
-import { useTodo } from "../hooks/TodoHooks";
 
 export default defineComponent({
   name: "TodoInput",
-  setup() {
-    const { inputTodoText, getInputTodoText, inputText } = useTodo();
-    return {
-      inputTodoText,
-      getInputTodoText,
-      inputText
-    };
+  props: {
+    inputTodoText: String,
+    hanldeTextInput: Function
+  },
+  setup(props) {
+    const { inputTodoText, hanldeTextInput } = props;
+    return { inputTodoText, hanldeTextInput };
   }
 });
 </script>
 <style scoped>
+.TodoInput__Input {
+  height: 100%;
+  box-sizing: border-box;
+  padding-left: 5px;
+}
 </style>

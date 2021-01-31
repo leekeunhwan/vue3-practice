@@ -1,7 +1,6 @@
-import { computed, reactive, toRefs } from "vue";
-import TodoList from "../pages/TodoList.vue";
+import { reactive, toRefs, watchEffect } from "vue";
 
-interface TodoList {
+export interface TodoList {
   id: string;
   text: string;
   done: boolean;
@@ -11,23 +10,37 @@ interface NextTodoList extends TodoList {}
 
 export function useTodo() {
   const stateAsRefs = reactive({
-    todoList: [] as NewTodoList[],
+    todoList: [
+      {
+        id: "1213",
+        text: "hi there",
+        done: false,
+      },
+    ],
     inputTodoText: "",
   });
 
-  const getTodo = () => stateAsRefs.todoList;
-  const getTodoCount = () => stateAsRefs.todoList.length;
-  const getInputTodoText = () => stateAsRefs.inputTodoText;
+  watchEffect(() => {
+    console.log("stateAsRefs.todoList", stateAsRefs.todoList);
+    console.log("stateAsRefs.inputTodoText", stateAsRefs.inputTodoText);
+  });
 
-  const inputText = (event: InputEvent) => {
+  const hanldeTextInput = (event: InputEvent): void => {
     stateAsRefs.inputTodoText = (event.target as HTMLInputElement).value;
   };
 
-  const addTodo = (newTodoList: NewTodoList) => {
-    return [...stateAsRefs.todoList, newTodoList];
+  const handleTodoAdd = (): void => {
+    const newTodoList = {
+      id: `id-${new Date().getTime()}-${(Math.random() * 10000).toFixed(0)}`,
+      text: stateAsRefs.inputTodoText,
+      done: false,
+    };
+
+    stateAsRefs.inputTodoText = "";
+    stateAsRefs.todoList.push(newTodoList);
   };
 
-  const updateTodo = (updateTodoList: NextTodoList) => {
+  const hanldeTodoUpdate = (updateTodoList: NextTodoList) => {
     const updateTargetIndex = TodoList.findIndex(
       (todo: TodoList) => todo.id === updateTodoList.id
     );
@@ -35,21 +48,20 @@ export function useTodo() {
     stateAsRefs.todoList[updateTargetIndex] = updateTodoList;
   };
 
-  const deleteTodo = (deleteTodo: TodoList) => {
+  const handleTodoDelete = (deleteTodo: TodoList) => {
     const deleteTargetIndex = TodoList.findIndex(
       (todo: TodoList) => todo.id === deleteTodo.id
     );
-    stateAsRefs.todoList.splice(deleteTargetIndex, 1);
+    stateAsRefs.todoList = stateAsRefs.todoList.filter(
+      (todo: TodoList) => todo.id !== deleteTodo.id
+    );
   };
 
   return {
     ...toRefs(stateAsRefs),
-    getTodo,
-    getTodoCount,
-    getInputTodoText,
-    inputText,
-    addTodo,
-    updateTodo,
-    deleteTodo,
+    hanldeTextInput,
+    handleTodoAdd,
+    hanldeTodoUpdate,
+    handleTodoDelete,
   };
 }
